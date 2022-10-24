@@ -23,11 +23,21 @@ namespace urlApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly string PATH = $"{Environment.CurrentDirectory}\\wordDataList.json";
+        //private readonly string PATH = $"{Environment.CurrentDirectory}\\wordDataList.json";
+        private readonly string PATH;
         private BindingList<WordModel> _wordDataList;
         private FileIOService _fileIOService;
         public MainWindow()
         {
+            string st = AppDomain.CurrentDomain.BaseDirectory;
+            /////del
+            int f = st.LastIndexOf('\\');
+            f = st.Remove(f, 1).LastIndexOf('\\');
+            f = st.Remove(f, st.Length-f).LastIndexOf('\\');
+            f = st.Remove(f, st.Length-f).LastIndexOf('\\');
+            st = st.Remove(f, st.Length-f);
+            PATH = st.Insert(st.Length, "\\wordDataList.json");
+            /////del
             InitializeComponent();
         }
 
