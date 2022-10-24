@@ -1,2 +1,2 @@
-git pull main
+git pull origin main
 Pause
