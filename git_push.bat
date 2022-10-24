@@ -1,4 +1,4 @@
 git add .
 git commit -m "%date% - %time%"
-git push main
+git push origin master
 Pause
