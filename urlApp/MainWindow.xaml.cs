@@ -53,13 +53,10 @@ namespace urlApp
                 MessageBox.Show(ex.Message);
                 Close();
             }
-            
-            //_wordDataList = new BindingList<WordModel>()
-            //{
-            //    new WordModel(){WChina="中国", WTranscription="Zhōngguó", WRussia="Китай"},
-            //    new WordModel(){WChina = "俄罗斯", WTranscription="Èluósī", WRussia="Россия"}
-            //};
+
+
             dgTranslater.ItemsSource = _wordDataList;
+            
             _wordDataList.ListChanged += _wordDataList_ListChanged;
         }
 
@@ -77,6 +74,10 @@ namespace urlApp
                     Close();
                 }
             }
+        }
+        void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            e.Row.Header = (e.Row.GetIndex()).ToString();
         }
     }
 }

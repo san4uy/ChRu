@@ -13,7 +13,6 @@ namespace urlApp.Models
         private string _WTranscription;
         private string _WRussia;
         public DateTime CreationDate { get; set; } = DateTime.Now;
-        
 
         public string WChina
         {
