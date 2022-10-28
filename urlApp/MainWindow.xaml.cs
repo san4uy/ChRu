@@ -79,5 +79,18 @@ namespace urlApp
         {
             e.Row.Header = (e.Row.GetIndex()).ToString();
         }
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if((e.Key == Key.Y) && (dgTranslater.Visibility == Visibility.Visible))
+            {
+                dgTranslater.Visibility = Visibility.Collapsed;
+                spWords.Visibility = Visibility.Visible;
+            }
+            else if(e.Key == Key.Y)
+            {
+                dgTranslater.Visibility = Visibility.Visible;
+                spWords.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }
