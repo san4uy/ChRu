@@ -15,13 +15,18 @@
                 <DataGridTextColumn Binding="{Binding Path = CreationDate}" Header="CreationDate" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel x:Name="spWords" Orientation="Vertical" Visibility="Collapsed">
-            <Viewbox>
-                <Label Name="Target" Content="2016 fdfadf dsfa"/>
+        <Grid x:Name="gWords" Visibility="Collapsed" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Viewbox Grid.Row="0">
+                <Label x:Name="lCh" Content="22"/>
             </Viewbox>
-            <Viewbox>
-                <Label Name="Target2" Content="2022 fads  dsafdsf adfs"/>
+            <Viewbox Grid.Row="1">
+                <Label x:Name="lRu" Content="2022 fads  dsafdsf adfs"/>
             </Viewbox>
-        </StackPanel> 
+        </Grid>
     </Grid>
 </Window>

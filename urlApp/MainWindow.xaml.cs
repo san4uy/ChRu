@@ -27,6 +27,7 @@ namespace urlApp
         private readonly string PATH;
         private BindingList<WordModel> _wordDataList;
         private FileIOService _fileIOService;
+
         public MainWindow()
         {
             string st = AppDomain.CurrentDomain.BaseDirectory;
@@ -53,7 +54,6 @@ namespace urlApp
                 MessageBox.Show(ex.Message);
                 Close();
             }
-
 
             dgTranslater.ItemsSource = _wordDataList;
             
@@ -84,13 +84,19 @@ namespace urlApp
             if((e.Key == Key.Y) && (dgTranslater.Visibility == Visibility.Visible))
             {
                 dgTranslater.Visibility = Visibility.Collapsed;
-                spWords.Visibility = Visibility.Visible;
+                gWords.Visibility = Visibility.Visible;
+                lCh.Content = _wordDataList.ElementAtOrDefault(1).WChina;
             }
             else if(e.Key == Key.Y)
             {
                 dgTranslater.Visibility = Visibility.Visible;
-                spWords.Visibility = Visibility.Collapsed;
+                gWords.Visibility = Visibility.Collapsed;
             }
-        }
+        
+            if(e.Key == Key.Up)
+            {
+
+            }
+}
     }
 }
