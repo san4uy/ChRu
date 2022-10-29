@@ -97,6 +97,10 @@ namespace urlApp
             {
 
             }
-}
+            if (e.Key == Key.S)
+            {
+                
+            }
+        }
     }
 }

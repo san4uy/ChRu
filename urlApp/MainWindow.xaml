@@ -12,6 +12,7 @@
                 <DataGridTextColumn Binding="{Binding Path = WChina}" Header="Chinese" Width="*"/>
                 <DataGridTextColumn Binding="{Binding Path = WTranscription}" Header="Transcription" Width="*"/>
                 <DataGridTextColumn Binding="{Binding Path = WRussia}" Header="Russian" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Path = Status}" Header="Status" Width="60"/>
                 <DataGridTextColumn Binding="{Binding Path = CreationDate}" Header="CreationDate" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
