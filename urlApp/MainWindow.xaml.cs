@@ -27,6 +27,7 @@ namespace urlApp
         private readonly string PATH;
         private BindingList<WordModel> _wordDataList;
         private FileIOService _fileIOService;
+        private int it;
 
         public MainWindow()
         {
@@ -54,7 +55,7 @@ namespace urlApp
                 MessageBox.Show(ex.Message);
                 Close();
             }
-
+            it = 0;
             dgTranslater.ItemsSource = _wordDataList;
             
             _wordDataList.ListChanged += _wordDataList_ListChanged;
@@ -74,6 +75,7 @@ namespace urlApp
                     Close();
                 }
             }
+            if (e.ListChangedType == ListChangedType.ItemAdded) it++;
         }
         void DataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
@@ -93,13 +95,38 @@ namespace urlApp
                 gWords.Visibility = Visibility.Collapsed;
             }
         
-            if(e.Key == Key.Up)
+            if(e.Key == Key.Right)
             {
-
+                if(++it > _wordDataList.Count - 1)
+                {
+                    it = 0;
+                }
+                lCh.Content = _wordDataList.ElementAt(it).WChina;
+            }
+            if (e.Key == Key.Left)
+            {
+                if (--it < 0)
+                {
+                    it = _wordDataList.Count - 1;
+                }
+                lCh.Content = _wordDataList.ElementAt(it).WChina;
             }
             if (e.Key == Key.S)
             {
-                
+                var sortedList = new BindingList<WordModel>(_wordDataList.OrderBy(x => int.Parse(x.Status)).ToList());
+                _wordDataList.Clear();
+                foreach (var word in sortedList)
+                    _wordDataList.Add(word);
+                sortedList.Clear();
+                it = 0;
+                //_wordDataList = (BindingList<WordModel>)_wordDataList.OrderByDescending(x => x.Status).ToList();
+                //List<WordModel> w_list = new List<WordModel>();
+                //foreach (var word in _wordDataList)
+                //{
+                //    w_list.Add(word);
+                //}
+
+
             }
         }
     }
