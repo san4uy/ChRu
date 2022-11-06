@@ -7,7 +7,22 @@
         mc:Ignorable="d"
         Title="ChinApp" Height="450" Width="800" Loaded="Window_Loaded" KeyDown="Window_KeyDown">
     <Grid>
+
+        <!--<MenuItem x:Name="MItem" Click="AddPresetButton_Click">
+            <MenuItem.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add 1"/>
+                    <MenuItem Header="Add 2"/>
+                    <MenuItem Header="Add 3"/>
+                </ContextMenu>
+            </MenuItem.ContextMenu>
+        </MenuItem>-->
         <DataGrid x:Name="dgTranslater" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" Margin="5" AutoGenerateColumns="False">
+            <UIElement.CommandBindings>
+                <CommandBinding Command="{x:Static DataGrid.SelectAllCommand}"
+                            Executed="OnSelectAllExecute"/>
+            </UIElement.CommandBindings>
+
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path = WChina}" Header="Chinese" Width="*"/>
                 <DataGridTextColumn Binding="{Binding Path = WTranscription}" Header="Transcription" Width="*"/>

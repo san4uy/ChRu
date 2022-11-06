@@ -17,18 +17,18 @@ namespace urlApp.Services
         {
             PATH = path;
         }
-        public BindingList<WordModel> LoadData()
+        public BindingList<DataModel> LoadData()
         {
             var fileExists = File.Exists(PATH);
             if(!fileExists)
             {
                 File.CreateText(PATH).Dispose();
-                return new BindingList<WordModel>();
+                return new BindingList<DataModel>();
             }
             using (var reader = File.OpenText(PATH))
             {
                 var fileText = reader.ReadToEnd();
-                return JsonConvert.DeserializeObject<BindingList<WordModel>>(fileText);
+                return JsonConvert.DeserializeObject<BindingList<DataModel>>(fileText);
             }
         }
         public void SaveData(object wordDataList)

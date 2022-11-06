@@ -26,8 +26,18 @@ namespace urlApp
         //private readonly string PATH = $"{Environment.CurrentDirectory}\\wordDataList.json";
         private readonly string PATH;
         private BindingList<WordModel> _wordDataList;
+        private BindingList<DataModel> _dataList;
+
         private FileIOService _fileIOService;
         private int it;
+
+        private void OnSelectAllExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            //MessageBox.Show("The \"Select all\" command was invoked.");
+            MenuItem menuItem = new MenuItem();
+            ContextMenu contextMenu = new ContextMenu();
+            contextMenu.
+        }
 
         public MainWindow()
         {
@@ -48,7 +58,7 @@ namespace urlApp
             _fileIOService = new FileIOService(PATH);
             try
             {
-                _wordDataList = _fileIOService.LoadData();
+                _dataList = _fileIOService.LoadData();
             }
             catch (Exception ex)
             {
@@ -56,9 +66,9 @@ namespace urlApp
                 Close();
             }
             it = 0;
-            dgTranslater.ItemsSource = _wordDataList;
-            
-            _wordDataList.ListChanged += _wordDataList_ListChanged;
+            dgTranslater.ItemsSource = _dataList;
+
+            _dataList.ListChanged += _wordDataList_ListChanged;
         }
 
         private void _wordDataList_ListChanged(object sender, ListChangedEventArgs e)

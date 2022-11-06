@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace testA
     public partial class MainWindow : Window
     {
         ExtractSound es = new ExtractSound();
+        private MediaPlayer player = new MediaPlayer();
         public MainWindow()
         {
             InitializeComponent();
@@ -31,16 +33,22 @@ namespace testA
         {
             if(e.Key == Key.Space)
             {
-                es.Enco = tbIn.Text;
-                tbOut.Text = es.Enco;
+                //es.Enco = tbIn.Text;
+
+                //string path = es.GetPath();
+                //string str = es.CutCsound(es.GetCSound());
+                //using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
+                //{
+                //    writer.Write(System.Convert.FromBase64String(str));
+                //}
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //es.Enco = tbIn.Text;
-            //tbOut.Text = es.Enco;
-            tbOut.Text = es.GetCodeAsync("ee").Result;
+            
+            player.Open(new Uri(es.GetPath(), UriKind.RelativeOrAbsolute));
+            player.Play();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
