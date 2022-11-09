@@ -23,39 +23,20 @@ namespace urlApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        //private readonly string PATH = $"{Environment.CurrentDirectory}\\wordDataList.json";
-        private readonly string PATH;
-        private BindingList<WordModel> _wordDataList;
+       
         private BindingList<DataModel> _dataList;
 
         private FileIOService _fileIOService;
         private int it;
 
-        private void OnSelectAllExecute(object sender, ExecutedRoutedEventArgs e)
-        {
-            //MessageBox.Show("The \"Select all\" command was invoked.");
-            MenuItem menuItem = new MenuItem();
-            ContextMenu contextMenu = new ContextMenu();
-            contextMenu.
-        }
-
         public MainWindow()
         {
-            string st = AppDomain.CurrentDomain.BaseDirectory;
-            /////del
-            int f = st.LastIndexOf('\\');
-            f = st.Remove(f, 1).LastIndexOf('\\');
-            f = st.Remove(f, st.Length-f).LastIndexOf('\\');
-            f = st.Remove(f, st.Length-f).LastIndexOf('\\');
-            st = st.Remove(f, st.Length-f);
-            PATH = st.Insert(st.Length, "\\wordDataList.json");
-            /////del
             InitializeComponent();
         }
-
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _fileIOService = new FileIOService(PATH);
+            _fileIOService = new FileIOService();
+
             try
             {
                 _dataList = _fileIOService.LoadData();
@@ -65,10 +46,15 @@ namespace urlApp
                 MessageBox.Show(ex.Message);
                 Close();
             }
+            //_dataList = new BindingList<DataModel>();
+            //DataModel t = new DataModel();
+            //_dataList.Add(t);
             it = 0;
-            dgTranslater.ItemsSource = _dataList;
-
-            _dataList.ListChanged += _wordDataList_ListChanged;
+            //_dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
+            //if(_dataList[0].WordDataList == null) 
+           dgTranslater.ItemsSource = _dataList[0].WordDataList;
+           _dataList.ListChanged += _wordDataList_ListChanged;
+            //_dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "2222" } } });
         }
 
         private void _wordDataList_ListChanged(object sender, ListChangedEventArgs e)
@@ -93,51 +79,58 @@ namespace urlApp
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if((e.Key == Key.Y) && (dgTranslater.Visibility == Visibility.Visible))
-            {
-                dgTranslater.Visibility = Visibility.Collapsed;
-                gWords.Visibility = Visibility.Visible;
-                lCh.Content = _wordDataList.ElementAtOrDefault(1).WChina;
-            }
-            else if(e.Key == Key.Y)
-            {
-                dgTranslater.Visibility = Visibility.Visible;
-                gWords.Visibility = Visibility.Collapsed;
-            }
-        
-            if(e.Key == Key.Right)
-            {
-                if(++it > _wordDataList.Count - 1)
-                {
-                    it = 0;
-                }
-                lCh.Content = _wordDataList.ElementAt(it).WChina;
-            }
-            if (e.Key == Key.Left)
-            {
-                if (--it < 0)
-                {
-                    it = _wordDataList.Count - 1;
-                }
-                lCh.Content = _wordDataList.ElementAt(it).WChina;
-            }
-            if (e.Key == Key.S)
-            {
-                var sortedList = new BindingList<WordModel>(_wordDataList.OrderBy(x => int.Parse(x.Status)).ToList());
-                _wordDataList.Clear();
-                foreach (var word in sortedList)
-                    _wordDataList.Add(word);
-                sortedList.Clear();
-                it = 0;
-                //_wordDataList = (BindingList<WordModel>)_wordDataList.OrderByDescending(x => x.Status).ToList();
-                //List<WordModel> w_list = new List<WordModel>();
-                //foreach (var word in _wordDataList)
-                //{
-                //    w_list.Add(word);
-                //}
+            //if ((e.Key == Key.Y) && (dgTranslater.Visibility == Visibility.Visible))
+            //{
+            //    dgTranslater.Visibility = Visibility.Collapsed;
+            //    gWords.Visibility = Visibility.Visible;
+            //    lCh.Content = _wordDataList.ElementAtOrDefault(1).WChina;
+            //}
+            //else if (e.Key == Key.Y)
+            //{
+            //    dgTranslater.Visibility = Visibility.Visible;
+            //    gWords.Visibility = Visibility.Collapsed;
+            //}
+
+            //if (e.Key == Key.Right)
+            //{
+            //    if (++it > _wordDataList.Count - 1)
+            //    {
+            //        it = 0;
+            //    }
+            //    lCh.Content = _wordDataList.ElementAt(it).WChina;
+            //}
+            //if (e.Key == Key.Left)
+            //{
+            //    if (--it < 0)
+            //    {
+            //        it = _wordDataList.Count - 1;
+            //    }
+            //    lCh.Content = _wordDataList.ElementAt(it).WChina;
+            //}
+            //if (e.Key == Key.S)
+            //{
+            //    var sortedList = new BindingList<WordModel>(_wordDataList.OrderBy(x => int.Parse(x.Status)).ToList());
+            //    _wordDataList.Clear();
+            //    foreach (var word in sortedList)
+            //        _wordDataList.Add(word);
+            //    sortedList.Clear();
+            //    it = 0;
+            //    //_wordDataList = (BindingList<WordModel>)_wordDataList.OrderByDescending(x => x.Status).ToList();
+            //    //List<WordModel> w_list = new List<WordModel>();
+            //    //foreach (var word in _wordDataList)
+            //    //{
+            //    //    w_list.Add(word);
+            //    //}
 
 
-            }
+            //}
         }
+
+        private void ControlTemplate_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("HEEEEEEELOOOOOOOOOOO1");
+        }
+
+
     }
 }

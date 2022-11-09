@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:urlApp"
         mc:Ignorable="d"
         Title="ChinApp" Height="450" Width="800" Loaded="Window_Loaded" KeyDown="Window_KeyDown">
+
     <Grid>
 
         <!--<MenuItem x:Name="MItem" Click="AddPresetButton_Click">
@@ -17,11 +18,37 @@
                 </ContextMenu>
             </MenuItem.ContextMenu>
         </MenuItem>-->
-        <DataGrid x:Name="dgTranslater" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" Margin="5" AutoGenerateColumns="False">
-            <UIElement.CommandBindings>
+
+        <DataGrid x:Name="dgTranslater" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False">
+            <!--<UIElement.CommandBindings>
                 <CommandBinding Command="{x:Static DataGrid.SelectAllCommand}"
                             Executed="OnSelectAllExecute"/>
-            </UIElement.CommandBindings>
+            </UIElement.CommandBindings>-->
+            <DataGrid.Resources>
+                <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border Background="Red" ButtonBase.Click="ControlTemplate_Click">
+                                    <!--<TextBlock Text="X" Foreground="White"/>-->
+                                    <Border.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="test"/>
+                                            <!--<DataGrid x:Name="tt">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Binding="{Binding Path = WChina}" Header="Title"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>-->
+                                        </ContextMenu>
+                                    </Border.ContextMenu>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
+
 
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path = WChina}" Header="Chinese" Width="*"/>
@@ -29,7 +56,9 @@
                 <DataGridTextColumn Binding="{Binding Path = WRussia}" Header="Russian" Width="*"/>
                 <DataGridTextColumn Binding="{Binding Path = Status}" Header="Status" Width="60"/>
                 <DataGridTextColumn Binding="{Binding Path = CreationDate}" Header="CreationDate" Width="*"/>
+
             </DataGrid.Columns>
+
         </DataGrid>
         <Grid x:Name="gWords" Visibility="Collapsed" Margin="10">
             <Grid.RowDefinitions>

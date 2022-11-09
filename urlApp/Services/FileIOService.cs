@@ -12,10 +12,11 @@ namespace urlApp.Services
 {
     internal class FileIOService
     {
+        //private readonly string PATH = $"{Environment.CurrentDirectory}\\wordDataList.json";
         private readonly string PATH;
-        public FileIOService(string path)
+        public FileIOService()
         {
-            PATH = path;
+            PATH = GetPath();
         }
         public BindingList<DataModel> LoadData()
         {
@@ -38,6 +39,17 @@ namespace urlApp.Services
                 string output = JsonConvert.SerializeObject(wordDataList);
                 writer.WriteLine(output);
             }
+        }
+        public string GetPath()
+        {
+            string st = AppDomain.CurrentDomain.BaseDirectory;
+            /////del
+            int f = st.LastIndexOf('\\');
+            f = st.Remove(f, 1).LastIndexOf('\\');
+            f = st.Remove(f, st.Length-f).LastIndexOf('\\');
+            f = st.Remove(f, st.Length-f).LastIndexOf('\\');
+            st = st.Remove(f, st.Length-f);
+            return st.Insert(st.Length, "\\wordDataList.json");
         }
     }
 }

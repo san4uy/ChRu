@@ -58,9 +58,29 @@ namespace urlApp.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); // аналог if(propertyName!= null)
         }
     }
-    internal class DataModel
+    internal class DataModel : WordModel
     {
-        string Title { get; set; }
-        BindingList<WordModel> datalist;
+        public string Title { get; set; } = "";
+        private BindingList<WordModel> _WordDataList;
+        public BindingList<WordModel> WordDataList
+        {
+            get
+            {
+                if (_WordDataList == null)
+                    return new BindingList<WordModel>();
+                return _WordDataList;
+            }
+            set
+            {
+                if (_WordDataList == value)
+                    return;
+                _WordDataList = value;
+                OnPropertyChanged("WRussia");
+            }
+        }
+        public DataModel()
+        {
+
+        }
     }
 }
