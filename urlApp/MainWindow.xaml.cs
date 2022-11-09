@@ -23,7 +23,7 @@ namespace urlApp
     /// </summary>
     public partial class MainWindow : Window
     {
-       
+
         private BindingList<DataModel> _dataList;
 
         private FileIOService _fileIOService;
@@ -46,14 +46,19 @@ namespace urlApp
                 MessageBox.Show(ex.Message);
                 Close();
             }
-            //_dataList = new BindingList<DataModel>();
-            //DataModel t = new DataModel();
-            //_dataList.Add(t);
+
             it = 0;
             //_dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
-            //if(_dataList[0].WordDataList == null) 
-           dgTranslater.ItemsSource = _dataList[0].WordDataList;
-           _dataList.ListChanged += _wordDataList_ListChanged;
+            //if (_dataList.Count == 0)
+            //{
+            //    _dataList = new BindingList<DataModel>();
+            //    DataModel t = new DataModel();
+            //    _dataList.Add(t);
+            //    _dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
+            //}
+            if (_dataList.Count == 0)  _dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
+            dgTranslater.ItemsSource = _dataList[0].WordDataList;
+            _dataList[0].WordDataList.ListChanged += _wordDataList_ListChanged;
             //_dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "2222" } } });
         }
 
@@ -63,7 +68,7 @@ namespace urlApp
             {
                 try
                 {
-                    _fileIOService.SaveData(sender);
+                    _fileIOService.SaveData(_dataList);
                 }
                 catch (Exception ex)
                 {
@@ -131,6 +136,17 @@ namespace urlApp
             MessageBox.Show("HEEEEEEELOOOOOOOOOOO1");
         }
 
-
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            try
+            {
+                _fileIOService.SaveData(_dataList);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Close();
+            }
+        }
     }
 }

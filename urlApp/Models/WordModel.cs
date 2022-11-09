@@ -61,26 +61,26 @@ namespace urlApp.Models
     internal class DataModel : WordModel
     {
         public string Title { get; set; } = "";
-        private BindingList<WordModel> _WordDataList;
-        public BindingList<WordModel> WordDataList
-        {
-            get
-            {
-                if (_WordDataList == null)
-                    return new BindingList<WordModel>();
-                return _WordDataList;
-            }
-            set
-            {
-                if (_WordDataList == value)
-                    return;
-                _WordDataList = value;
-                OnPropertyChanged("WRussia");
-            }
-        }
+        public BindingList<WordModel> WordDataList;
+        //public BindingList<WordModel> WordDataList
+        //{
+        //    get
+        //    {
+        //        if (_WordDataList == null)
+        //            return new BindingList<WordModel>();
+        //        return _WordDataList;
+        //    }
+        //    set
+        //    {
+        //        if (_WordDataList == value)
+        //            return;
+        //        _WordDataList = value;
+        //        OnPropertyChanged("WRussia");
+        //    }
+        //}
         public DataModel()
         {
-
+            WordDataList = new BindingList<WordModel>();
         }
     }
 }

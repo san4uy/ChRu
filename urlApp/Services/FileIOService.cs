@@ -32,11 +32,11 @@ namespace urlApp.Services
                 return JsonConvert.DeserializeObject<BindingList<DataModel>>(fileText);
             }
         }
-        public void SaveData(object wordDataList)
+        public void SaveData(object DataModel)
         {
             using (StreamWriter writer = File.CreateText(PATH))
             {
-                string output = JsonConvert.SerializeObject(wordDataList);
+                string output = JsonConvert.SerializeObject(DataModel);
                 writer.WriteLine(output);
             }
         }
