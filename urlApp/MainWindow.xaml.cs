@@ -25,7 +25,7 @@ namespace urlApp
     {
 
         private BindingList<DataModel> _dataList;
-
+        private Border dgBorder;
         private FileIOService _fileIOService;
         private int it;
 
@@ -46,7 +46,13 @@ namespace urlApp
                 MessageBox.Show(ex.Message);
                 Close();
             }
-
+            //foreach (var item in _dataList)
+            //{
+            //    MenuItem newMenuItem1 = new MenuItem();
+            //    newMenuItem1.Header = item.Title;
+            //    cm.ContextMenu.Items.Add(newMenuItem1);
+            //}
+            var t = dgTranslater.Resources.Values;
             it = 0;
             //_dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
             //if (_dataList.Count == 0)
@@ -84,17 +90,17 @@ namespace urlApp
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            //if ((e.Key == Key.Y) && (dgTranslater.Visibility == Visibility.Visible))
-            //{
-            //    dgTranslater.Visibility = Visibility.Collapsed;
-            //    gWords.Visibility = Visibility.Visible;
-            //    lCh.Content = _wordDataList.ElementAtOrDefault(1).WChina;
-            //}
-            //else if (e.Key == Key.Y)
-            //{
-            //    dgTranslater.Visibility = Visibility.Visible;
-            //    gWords.Visibility = Visibility.Collapsed;
-            //}
+            if ((e.Key == Key.Tab) && (dgTranslater.Visibility == Visibility.Visible))
+            {
+                dgTranslater.Visibility = Visibility.Collapsed;
+                gWords.Visibility = Visibility.Visible;
+                //lCh.Content = _wordDataList.ElementAtOrDefault(1).WChina;
+            }
+            else if (e.Key == Key.Tab)
+            {
+                dgTranslater.Visibility = Visibility.Visible;
+                gWords.Visibility = Visibility.Collapsed;
+            }
 
             //if (e.Key == Key.Right)
             //{
@@ -147,6 +153,32 @@ namespace urlApp
                 MessageBox.Show(ex.Message);
                 Close();
             }
+        }
+
+        private void CMEEE_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            dgBorder = sender as Border;
+            var flg = false;
+            
+            foreach (var item in _dataList)
+            {
+                //foreach (var cotexI in .)
+                //{
+                //    if(cotexI.Header == item.Title)
+                //}
+                MenuItem newMenuItem1 = new MenuItem();
+                newMenuItem1.Header = item.Title;
+                dgBorder.ContextMenu.Items.Add(newMenuItem1);
+            }
+            var f = dgBorder.ContextMenu.Items.GetItemAt(0) as MenuItem;
+            var k = f.Header;
+            ;
+
+        }
+
+        private void ContextMenu_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show("hello");
         }
     }
 }

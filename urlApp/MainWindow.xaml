@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ChinApp" Height="450" Width="800" Loaded="Window_Loaded" KeyDown="Window_KeyDown" Closed="Window_Closed">
 
-    <Grid>
+    <Grid KeyDown="Window_KeyDown">
 
         <!--<MenuItem x:Name="MItem" Click="AddPresetButton_Click">
             <MenuItem.ContextMenu>
@@ -19,27 +19,26 @@
             </MenuItem.ContextMenu>
         </MenuItem>-->
 
-        <DataGrid x:Name="dgTranslater" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False">
+        <DataGrid x:Name="dgTranslater" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" KeyDown="Window_KeyDown">
             <!--<UIElement.CommandBindings>
                 <CommandBinding Command="{x:Static DataGrid.SelectAllCommand}"
                             Executed="OnSelectAllExecute"/>
             </UIElement.CommandBindings>-->
             <DataGrid.Resources>
-                <Style x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
-                    <Setter Property="Template">
+                <Style x:Name="dgStyle" x:Key="{ComponentResourceKey ResourceId=DataGridSelectAllButtonStyle, TypeInTargetAssembly={x:Type DataGrid}}" TargetType="{x:Type Button}">
+                    <Setter x:Name="dgSetter" Property="Template">
                         <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="Red" ButtonBase.Click="ControlTemplate_Click">
+                            <ControlTemplate x:Name="dgControlTemplate" TargetType="{x:Type Button}">
+                                <Border x:Name="CMEEE" Background="Red" ButtonBase.Click="ControlTemplate_Click" ContextMenuOpening="CMEEE_ContextMenuOpening">
                                     <!--<TextBlock Text="X" Foreground="White"/>-->
                                     <Border.ContextMenu>
-                                        <ContextMenu>
-                                            <!--<MenuItem Header="test"/>-->
-                                            <Grid>
-                                                <!--<DataGrid x:Name="tt">
+                                        <ContextMenu Mouse.MouseDown="ContextMenu_MouseDown">
+                                            <!--<Grid>
+                                                <DataGrid x:Name="tt">
                                                     <DataGrid.Columns>
                                                         <DataGridTextColumn Binding="{Binding Path = Title}" Header="Title"/>
                                                     </DataGrid.Columns>
-                                                </DataGrid>-->
+                                                </DataGrid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition></RowDefinition>
                                                     <RowDefinition></RowDefinition>
@@ -47,7 +46,7 @@
                                                 </Grid.RowDefinitions>
                                                 <Button Grid.Row="2"></Button>
                                                 <Button Grid.Row="1"></Button>
-                                            </Grid>
+                                            </Grid>-->
                                         </ContextMenu>
                                     </Border.ContextMenu>
 
@@ -82,5 +81,10 @@
                 <Label x:Name="lRu" Content="2022 fads  dsafdsf adfs"/>
             </Viewbox>
         </Grid>
+        <!--<DataGrid x:Name="dgTheme" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" Visibility="Collapsed">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path = Title}" Header="Title" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>-->
     </Grid>
 </Window>
