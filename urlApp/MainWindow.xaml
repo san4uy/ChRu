@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:urlApp"
         mc:Ignorable="d"
-        Title="ChinApp" Height="450" Width="800" Loaded="Window_Loaded" KeyDown="Window_KeyDown" Closed="Window_Closed">
+        Title="ChinApp" Height="450" Width="800" Loaded="Window_Loaded" Closed="Window_Closed" KeyDown="DG_KeyDown">
 
-    <Grid KeyDown="Window_KeyDown">
+    <Grid>
 
         <!--<MenuItem x:Name="MItem" Click="AddPresetButton_Click">
             <MenuItem.ContextMenu>
@@ -18,8 +18,30 @@
                 </ContextMenu>
             </MenuItem.ContextMenu>
         </MenuItem>-->
-
-        <DataGrid x:Name="dgTranslater" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" KeyDown="Window_KeyDown">
+        
+        <DataGrid x:Name="dgTitle" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" CanUserDeleteRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path = Title}" Header="Title" Width="*"/>
+            </DataGrid.Columns>
+            <DataGrid.ColumnHeaderStyle> <!--Устанавливаем стиль заголовка таблицы-->
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="FontWeight"  Value="Bold" />
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Run" Click="Context_Run"></MenuItem>
+                    <MenuItem Header="Delete" Click="Context_Delete"></MenuItem>
+                        <!--<MenuItem.Icon>
+                            <Image Width="12" Height="12" Source="Images/Delete.png" />
+                        </MenuItem.Icon>-->
+                    
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+        <DataGrid x:Name="dgTranslater" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" KeyDown="DG_KeyDown" Visibility="Collapsed">
             <!--<UIElement.CommandBindings>
                 <CommandBinding Command="{x:Static DataGrid.SelectAllCommand}"
                             Executed="OnSelectAllExecute"/>
@@ -68,7 +90,7 @@
             </DataGrid.Columns>
 
         </DataGrid>
-        <Grid x:Name="gWords" Visibility="Collapsed" Margin="10">
+        <Grid x:Name="gWords" Visibility="Collapsed" Margin="10" KeyDown="DG_KeyDown">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>

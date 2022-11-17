@@ -25,10 +25,11 @@ namespace urlApp
     {
 
         private BindingList<DataModel> _dataList;
+        private DataModel toRunFromBindedList;
         private Border dgBorder;
         private FileIOService _fileIOService;
         private int it;
-
+        private bool flg = false;
         public MainWindow()
         {
             InitializeComponent();
@@ -62,9 +63,9 @@ namespace urlApp
             //    _dataList.Add(t);
             //    _dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
             //}
-            if (_dataList.Count == 0)  _dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
-            dgTranslater.ItemsSource = _dataList[0].WordDataList;
-            _dataList[0].WordDataList.ListChanged += _wordDataList_ListChanged;
+            if (_dataList.Count == 0) _dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
+            dgTitle.ItemsSource = _dataList;
+
             //_dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "2222" } } });
         }
 
@@ -88,36 +89,36 @@ namespace urlApp
         {
             e.Row.Header = (e.Row.GetIndex()).ToString();
         }
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        private void DG_KeyDown(object sender, KeyEventArgs e)
         {
-            if ((e.Key == Key.Tab) && (dgTranslater.Visibility == Visibility.Visible))
+            if ((e.Key == Key.D1) && (dgTranslater.Visibility == Visibility.Visible))
             {
                 dgTranslater.Visibility = Visibility.Collapsed;
                 gWords.Visibility = Visibility.Visible;
                 //lCh.Content = _wordDataList.ElementAtOrDefault(1).WChina;
             }
-            else if (e.Key == Key.Tab)
+            else if (e.Key == Key.D1)
             {
                 dgTranslater.Visibility = Visibility.Visible;
                 gWords.Visibility = Visibility.Collapsed;
             }
 
-            //if (e.Key == Key.Right)
-            //{
-            //    if (++it > _wordDataList.Count - 1)
-            //    {
-            //        it = 0;
-            //    }
-            //    lCh.Content = _wordDataList.ElementAt(it).WChina;
-            //}
-            //if (e.Key == Key.Left)
-            //{
-            //    if (--it < 0)
-            //    {
-            //        it = _wordDataList.Count - 1;
-            //    }
-            //    lCh.Content = _wordDataList.ElementAt(it).WChina;
-            //}
+            if (e.Key == Key.Right)
+            {
+                if (++it > toRunFromBindedList.WordDataList.Count - 1)
+                {
+                    it = 0;
+                }
+                lCh.Content = toRunFromBindedList.WordDataList.ElementAt(it).WChina;
+            }
+            if (e.Key == Key.Left)
+            {
+                if (--it < 0)
+                {
+                    it = toRunFromBindedList.WordDataList.Count - 1;
+                }
+                lCh.Content = toRunFromBindedList.WordDataList.ElementAt(it).WChina;
+            }
             //if (e.Key == Key.S)
             //{
             //    var sortedList = new BindingList<WordModel>(_wordDataList.OrderBy(x => int.Parse(x.Status)).ToList());
@@ -158,27 +159,73 @@ namespace urlApp
         private void CMEEE_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             dgBorder = sender as Border;
-            var flg = false;
             
-            foreach (var item in _dataList)
+            if(!flg)
             {
-                //foreach (var cotexI in .)
-                //{
-                //    if(cotexI.Header == item.Title)
-                //}
-                MenuItem newMenuItem1 = new MenuItem();
-                newMenuItem1.Header = item.Title;
-                dgBorder.ContextMenu.Items.Add(newMenuItem1);
+                foreach (var item in _dataList)
+                {
+                    //foreach (var cotexI in .)
+                    //{
+                    //    if(cotexI.Header == item.Title)
+                    //}
+                    MenuItem newMenuItem1 = new MenuItem();
+                    newMenuItem1.Header = item.Title;
+                    dgBorder.ContextMenu.Items.Add(newMenuItem1);
+                }
+                var f = dgBorder.ContextMenu.Items.GetItemAt(0) as MenuItem;
+                var k = f.Header;
+                flg = true;
+
             }
-            var f = dgBorder.ContextMenu.Items.GetItemAt(0) as MenuItem;
-            var k = f.Header;
-            ;
+            
 
         }
 
         private void ContextMenu_MouseDown(object sender, MouseButtonEventArgs e)
         {
             MessageBox.Show("hello");
+        }
+
+        private void Context_Delete(object sender, RoutedEventArgs e)
+        {
+            //Get the clicked MenuItem
+            var menuItem = (MenuItem)sender;
+
+            //Get the ContextMenu to which the menuItem belongs
+            var contextMenu = (ContextMenu)menuItem.Parent;
+
+            //Find the placementTarget
+            var item = (DataGrid)contextMenu.PlacementTarget;
+
+            //Get the underlying item, that you cast to your object that is bound
+            //to the DataGrid (and has subject and state as property)
+            var toDeleteFromBindedList = (DataModel)item.SelectedCells[0].Item;
+
+            //Remove the toDeleteFromBindedList object from your ObservableCollection
+            _dataList.Remove(toDeleteFromBindedList);
+        }
+
+        private void Context_Run(object sender, RoutedEventArgs e)
+        {
+            //Get the clicked MenuItem
+            var menuItem = (MenuItem)sender;
+
+            //Get the ContextMenu to which the menuItem belongs
+            var contextMenu = (ContextMenu)menuItem.Parent;
+
+            //Find the placementTarget
+            var item = (DataGrid)contextMenu.PlacementTarget; //DataGrid
+
+            //Get the underlying item, that you cast to your object that is bound
+            //to the DataGrid (and has subject and state as property)
+            toRunFromBindedList = (DataModel)item.SelectedCells[0].Item;
+
+            item.Visibility = Visibility.Collapsed;
+            dgTranslater.Visibility = Visibility.Visible;
+
+            
+            dgTranslater.ItemsSource = _dataList[_dataList.IndexOf(toRunFromBindedList)].WordDataList;
+            _dataList[_dataList.IndexOf(toRunFromBindedList)].WordDataList.ListChanged += _wordDataList_ListChanged;
         }
     }
 }
