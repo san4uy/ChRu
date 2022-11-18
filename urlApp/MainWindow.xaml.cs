@@ -28,6 +28,7 @@ namespace urlApp
         private DataModel toRunFromBindedList;
         private Border dgBorder;
         private FileIOService _fileIOService;
+        private SoundService soundService;
         private int it;
         private bool flg = false;
         public MainWindow()
@@ -37,7 +38,7 @@ namespace urlApp
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             _fileIOService = new FileIOService();
-
+            soundService = new SoundService();
             try
             {
                 _dataList = _fileIOService.LoadData();
@@ -47,23 +48,10 @@ namespace urlApp
                 MessageBox.Show(ex.Message);
                 Close();
             }
-            //foreach (var item in _dataList)
-            //{
-            //    MenuItem newMenuItem1 = new MenuItem();
-            //    newMenuItem1.Header = item.Title;
-            //    cm.ContextMenu.Items.Add(newMenuItem1);
-            //}
+
             var t = dgTranslater.Resources.Values;
             it = 0;
-            //_dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
-            //if (_dataList.Count == 0)
-            //{
-            //    _dataList = new BindingList<DataModel>();
-            //    DataModel t = new DataModel();
-            //    _dataList.Add(t);
-            //    _dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
-            //}
-            if (_dataList.Count == 0) _dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
+            //if (_dataList.Count == 0) _dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "111111" } } });
             dgTitle.ItemsSource = _dataList;
 
             //_dataList.Add(new DataModel() { Title = "hell", WordDataList = new BindingList<WordModel>() { new WordModel() { WChina = "2222" } } });
@@ -95,29 +83,66 @@ namespace urlApp
             {
                 dgTranslater.Visibility = Visibility.Collapsed;
                 gWords.Visibility = Visibility.Visible;
-                //lCh.Content = _wordDataList.ElementAtOrDefault(1).WChina;
+                try
+                {
+                    lCh.Content = toRunFromBindedList.WordDataList.ElementAt(0).WChina;
+                    lRu.Content = "";
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    Close();
+                }
+
             }
             else if (e.Key == Key.D1)
             {
                 dgTranslater.Visibility = Visibility.Visible;
                 gWords.Visibility = Visibility.Collapsed;
             }
-
-            if (e.Key == Key.Right)
+            if (gWords.Visibility == Visibility.Visible)
             {
-                if (++it > toRunFromBindedList.WordDataList.Count - 1)
+                if (e.Key == Key.Right)
                 {
-                    it = 0;
+                    if (++it > toRunFromBindedList.WordDataList.Count - 1)
+                    {
+                        it = 0;
+                    }
+                    lCh.Content = toRunFromBindedList.WordDataList.ElementAt(it).WChina;
+                    lRu.Content = "";
                 }
-                lCh.Content = toRunFromBindedList.WordDataList.ElementAt(it).WChina;
+                if (e.Key == Key.Left)
+                {
+                    if (--it < 0)
+                    {
+                        it = toRunFromBindedList.WordDataList.Count - 1;
+                    }
+                    lCh.Content = toRunFromBindedList.WordDataList.ElementAt(it).WChina;
+                    lRu.Content = "";
+                }
+                if (e.Key == Key.Down)
+                {
+                    lRu.Content = toRunFromBindedList.WordDataList.ElementAt(it).WRussia;
+                }
             }
-            if (e.Key == Key.Left)
+
+            
+            if (e.Key == Key.Space)
             {
-                if (--it < 0)
+                soundService.SaveSound("嗨，你好吗，天气怎么样阿扎扎", "f");
+                soundService.SaveUrlSound("嗨，你好吗，天气怎么样阿扎扎", "f");
+            }
+            if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
+            {
+                if (tbFind.Visibility == Visibility.Visible)
                 {
-                    it = toRunFromBindedList.WordDataList.Count - 1;
+                    tbFind.Visibility = Visibility.Collapsed;
                 }
-                lCh.Content = toRunFromBindedList.WordDataList.ElementAt(it).WChina;
+                else
+                {
+                    tbFind.Visibility = Visibility.Visible;
+                    tbFind.Focus();
+                }
             }
             //if (e.Key == Key.S)
             //{
@@ -207,6 +232,7 @@ namespace urlApp
 
         private void Context_Run(object sender, RoutedEventArgs e)
         {
+            tbFind.Visibility = Visibility.Collapsed;
             //Get the clicked MenuItem
             var menuItem = (MenuItem)sender;
 
@@ -224,8 +250,15 @@ namespace urlApp
             dgTranslater.Visibility = Visibility.Visible;
 
             
-            dgTranslater.ItemsSource = _dataList[_dataList.IndexOf(toRunFromBindedList)].WordDataList;
-            _dataList[_dataList.IndexOf(toRunFromBindedList)].WordDataList.ListChanged += _wordDataList_ListChanged;
+            dgTranslater.ItemsSource = toRunFromBindedList.WordDataList;
+            toRunFromBindedList.WordDataList.ListChanged += _wordDataList_ListChanged;
+        }
+
+        private void tbFind_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var filtered = _dataList.Where(DataModel => DataModel.Title.StartsWith(tbFind.Text));
+
+            dgTitle.ItemsSource = filtered;
         }
     }
 }

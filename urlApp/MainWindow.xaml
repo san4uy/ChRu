@@ -18,12 +18,12 @@
                 </ContextMenu>
             </MenuItem.ContextMenu>
         </MenuItem>-->
-        
         <DataGrid x:Name="dgTitle" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path = Title}" Header="Title" Width="*"/>
             </DataGrid.Columns>
-            <DataGrid.ColumnHeaderStyle> <!--Устанавливаем стиль заголовка таблицы-->
+            <DataGrid.ColumnHeaderStyle>
+                <!--Устанавливаем стиль заголовка таблицы-->
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="FontWeight"  Value="Bold" />
                     <Setter Property="HorizontalAlignment" Value="Center" />
@@ -34,10 +34,10 @@
                 <ContextMenu>
                     <MenuItem Header="Run" Click="Context_Run"></MenuItem>
                     <MenuItem Header="Delete" Click="Context_Delete"></MenuItem>
-                        <!--<MenuItem.Icon>
+                    <!--<MenuItem.Icon>
                             <Image Width="12" Height="12" Source="Images/Delete.png" />
                         </MenuItem.Icon>-->
-                    
+
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
@@ -103,6 +103,8 @@
                 <Label x:Name="lRu" Content="2022 fads  dsafdsf adfs"/>
             </Viewbox>
         </Grid>
+        <TextBox x:Name="tbFind" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" Width="234" Visibility="Collapsed" TextChanged="tbFind_TextChanged"/>
+
         <!--<DataGrid x:Name="dgTheme" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" Visibility="Collapsed">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path = Title}" Header="Title" Width="*"/>

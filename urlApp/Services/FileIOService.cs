@@ -51,5 +51,16 @@ namespace urlApp.Services
             st = st.Remove(f, st.Length-f);
             return st.Insert(st.Length, "\\wordDataList.json");
         }
+        public string GetFolder()
+        {
+            string st = AppDomain.CurrentDomain.BaseDirectory;
+            /////del
+            int f = st.LastIndexOf('\\');
+            f = st.Remove(f, 1).LastIndexOf('\\');
+            f = st.Remove(f, st.Length-f).LastIndexOf('\\');
+            f = st.Remove(f, st.Length-f).LastIndexOf('\\');
+            st = st.Remove(f, st.Length-f);
+            return st;
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace testA
     /// </summary>
     public partial class MainWindow : Window
     {
-        ExtractSound es = new ExtractSound();
+        //ExtractSound es = new ExtractSound();
         private MediaPlayer player = new MediaPlayer();
         public MainWindow()
         {
@@ -47,14 +47,14 @@ namespace testA
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             
-            player.Open(new Uri(es.GetPath(), UriKind.RelativeOrAbsolute));
-            player.Play();
+            //player.Open(new Uri(es.GetPath(), UriKind.RelativeOrAbsolute));
+            //player.Play();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            es.Code = tbIn.Text;
-            tbOut.Text = es.Code;
+            //es.Code = tbIn.Text;
+            //tbOut.Text = es.Code;
         }
     }
 }
