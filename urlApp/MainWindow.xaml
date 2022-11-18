@@ -92,14 +92,18 @@
         </DataGrid>
         <Grid x:Name="gWords" Visibility="Collapsed" Margin="10" KeyDown="DG_KeyDown">
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
             </Grid.RowDefinitions>
 
             <Viewbox Grid.Row="0">
                 <Label x:Name="lCh" Content="22"/>
             </Viewbox>
             <Viewbox Grid.Row="1">
+                <Label x:Name="lTr" Content="gggggggg"/>
+            </Viewbox>
+            <Viewbox Grid.Row="3">
                 <Label x:Name="lRu" Content="2022 fads  dsafdsf adfs"/>
             </Viewbox>
         </Grid>

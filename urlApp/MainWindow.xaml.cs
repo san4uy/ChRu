@@ -87,6 +87,7 @@ namespace urlApp
                 {
                     lCh.Content = toRunFromBindedList.WordDataList.ElementAt(0).WChina;
                     lRu.Content = "";
+                    lTr.Content = "";
                 }
                 catch (Exception ex)
                 {
@@ -110,6 +111,8 @@ namespace urlApp
                     }
                     lCh.Content = toRunFromBindedList.WordDataList.ElementAt(it).WChina;
                     lRu.Content = "";
+                    lTr.Content = "";
+                    //soundService.PlaySound(toRunFromBindedList.WordDataList.ElementAt(it).WChina, toRunFromBindedList.Title);
                 }
                 if (e.Key == Key.Left)
                 {
@@ -119,18 +122,25 @@ namespace urlApp
                     }
                     lCh.Content = toRunFromBindedList.WordDataList.ElementAt(it).WChina;
                     lRu.Content = "";
+                    lTr.Content = "";
+                    //soundService.PlaySound(toRunFromBindedList.WordDataList.ElementAt(it).WChina, toRunFromBindedList.Title);
                 }
                 if (e.Key == Key.Down)
                 {
                     lRu.Content = toRunFromBindedList.WordDataList.ElementAt(it).WRussia;
+                    lTr.Content = toRunFromBindedList.WordDataList.ElementAt(it).WTranscription;
+                    soundService.PlaySound(toRunFromBindedList.WordDataList.ElementAt(it).WChina, toRunFromBindedList.Title);
+                }
+                if (e.Key == Key.Up)
+                {
+                    soundService.PlaySound(toRunFromBindedList.WordDataList.ElementAt(it).WChina, toRunFromBindedList.Title);
                 }
             }
 
             
             if (e.Key == Key.Space)
             {
-                soundService.SaveSound("嗨，你好吗，天气怎么样阿扎扎", "f");
-                soundService.SaveUrlSound("嗨，你好吗，天气怎么样阿扎扎", "f");
+
             }
             if (e.KeyboardDevice.Modifiers == ModifierKeys.Control && e.Key == Key.F)
             {
@@ -251,7 +261,9 @@ namespace urlApp
 
             
             dgTranslater.ItemsSource = toRunFromBindedList.WordDataList;
+            soundService.CheckMp3Folder(ref toRunFromBindedList);
             toRunFromBindedList.WordDataList.ListChanged += _wordDataList_ListChanged;
+            
         }
 
         private void tbFind_TextChanged(object sender, TextChangedEventArgs e)

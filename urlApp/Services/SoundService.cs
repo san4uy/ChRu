@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using urlApp.Models;
 
 namespace urlApp.Services
 {
@@ -58,28 +60,18 @@ namespace urlApp.Services
             f = st.Remove(f, st.Length-f).LastIndexOf('\\');
             f = st.Remove(f, st.Length-f).LastIndexOf('\\');
             st = st.Remove(f, st.Length-f);
+            st += "\\mp3\\";
             return st;
         }
         public void SaveSound(string word, string path)
         {
-            path = GetFolder();
             string UrlSound = GetUrlSound(word);
-            string PATH = path + "\\" + word + ".mp3";
-            using (BinaryWriter writer = new BinaryWriter(File.Open(PATH, FileMode.OpenOrCreate)))
+            using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
             {
                 writer.Write(System.Convert.FromBase64String(UrlSound));
             }
         }
-        public void SaveUrlSound(string word, string path)
-        {
-            path = GetFolder();
-            string UrlSound = GetUrlSound(word);
-            string PATH = path + "\\" + word + ".txt";
-            using (BinaryWriter writer = new BinaryWriter(File.Open(PATH, FileMode.OpenOrCreate)))
-            {
-                writer.Write(UrlSound);
-            }
-        }
+
         public string GetUrlSound(string str)
         {
             var URL = "https://translate.google.com/_/TranslateWebserverUi/data/batchexecute?rpcids=jQ1olc&source-path=/&f.sid=6148368410739897732&bl=boq_translate-webserver_20221102.06_p0&hl=ru&soc-app=1&soc-platform=1&soc-device=1&_reqid=1869635&rt=c";
@@ -99,10 +91,34 @@ namespace urlApp.Services
             MatchCollection matches = regex.Matches(responseInString);
             return matches[0].ToString();
         }
-        public void PlaySound(string path)
+        public void PlaySound(string word, string title)
         {
-            //player.Open(new Uri(es.GetPath(), UriKind.RelativeOrAbsolute));
-            //player.Play();
+            string PATH = GetFolder() + title + "\\" + word + ".mp3";
+            player.Open(new Uri(PATH, UriKind.RelativeOrAbsolute));
+            player.Play();
+        }
+        public void CheckMp3Folder(ref DataModel dataModel)
+        {
+            string PATH = GetFolder() + dataModel.Title;
+            if (!Directory.Exists(PATH)) Directory.CreateDirectory(PATH);
+            string[] files = System.IO.Directory.GetFiles(PATH).Select(f => Path.GetFileNameWithoutExtension(f)).ToArray();
+            bool flg = false;
+            foreach (var worddata in dataModel.WordDataList)
+            {
+                for (int x = 0; x < files.Length; x++)
+                {
+                    if(worddata.WChina == files[x])
+                    {
+                        flg = true;
+                        break;
+                    }
+                }
+                if (!flg)
+                {
+                    SaveSound(worddata.WChina, PATH + "\\" + worddata.WChina + ".mp3");
+                }
+            }
+
         }
     }
 }
