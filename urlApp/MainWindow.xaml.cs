@@ -26,11 +26,14 @@ namespace urlApp
 
         private BindingList<DataModel> _dataList;
         private DataModel toRunFromBindedList;
+        private List<WordModel> _DataModelList;
         private Border dgBorder;
         private FileIOService _fileIOService;
         private SoundService soundService;
         private int it;
+        private bool nPlay = false;
         private bool flg = false;
+        private static Random rng = new Random();
         public MainWindow()
         {
             InitializeComponent();
@@ -79,13 +82,15 @@ namespace urlApp
         }
         private void DG_KeyDown(object sender, KeyEventArgs e)
         {
+            
             if ((e.Key == Key.D1) && (dgTranslater.Visibility == Visibility.Visible))
             {
                 dgTranslater.Visibility = Visibility.Collapsed;
                 gWords.Visibility = Visibility.Visible;
                 try
                 {
-                    lCh.Content = toRunFromBindedList.WordDataList.ElementAt(0).WChina;
+                    _DataModelList = toRunFromBindedList.WordDataList.ToList();
+                    lCh.Content = _DataModelList.ElementAt(0).WChina;
                     lRu.Content = "";
                     lTr.Content = "";
                 }
@@ -105,35 +110,51 @@ namespace urlApp
             {
                 if (e.Key == Key.Right)
                 {
-                    if (++it > toRunFromBindedList.WordDataList.Count - 1)
+                    
+                    if (++it > _DataModelList.Count - 1)
                     {
                         it = 0;
                     }
-                    lCh.Content = toRunFromBindedList.WordDataList.ElementAt(it).WChina;
+                    lCh.Content = _DataModelList.ElementAt(it).WChina;
                     lRu.Content = "";
                     lTr.Content = "";
-                    //soundService.PlaySound(toRunFromBindedList.WordDataList.ElementAt(it).WChina, toRunFromBindedList.Title);
+                    if (nPlay)  soundService.PlaySound(_DataModelList.ElementAt(it).WChina, toRunFromBindedList.Title);
                 }
                 if (e.Key == Key.Left)
                 {
                     if (--it < 0)
                     {
-                        it = toRunFromBindedList.WordDataList.Count - 1;
+                        it = _DataModelList.Count - 1;
                     }
-                    lCh.Content = toRunFromBindedList.WordDataList.ElementAt(it).WChina;
+                    lCh.Content = _DataModelList.ElementAt(it).WChina;
                     lRu.Content = "";
                     lTr.Content = "";
-                    //soundService.PlaySound(toRunFromBindedList.WordDataList.ElementAt(it).WChina, toRunFromBindedList.Title);
+                    if(nPlay) soundService.PlaySound(_DataModelList.ElementAt(it).WChina, toRunFromBindedList.Title);
                 }
                 if (e.Key == Key.Down)
                 {
-                    lRu.Content = toRunFromBindedList.WordDataList.ElementAt(it).WRussia;
-                    lTr.Content = toRunFromBindedList.WordDataList.ElementAt(it).WTranscription;
-                    soundService.PlaySound(toRunFromBindedList.WordDataList.ElementAt(it).WChina, toRunFromBindedList.Title);
+                    lRu.Content = _DataModelList.ElementAt(it).WRussia;
+                    lTr.Content = _DataModelList.ElementAt(it).WTranscription;
+                    soundService.PlaySound(_DataModelList.ElementAt(it).WChina, toRunFromBindedList.Title);
                 }
                 if (e.Key == Key.Up)
                 {
-                    soundService.PlaySound(toRunFromBindedList.WordDataList.ElementAt(it).WChina, toRunFromBindedList.Title);
+                    soundService.PlaySound(_DataModelList.ElementAt(it).WChina, toRunFromBindedList.Title);
+                }
+                if(e.Key == Key.F1)
+                {
+                    nPlay = !nPlay;
+                }
+                if (e.Key == Key.F2)
+                {
+                    _DataModelList = _DataModelList.OrderBy(a => rng.Next()).ToList();
+                    //var shuffleWoList = _DataModelList.OrderBy(x => x.CreationDate).ToList();
+
+                    it = 0;
+                    lCh.Content = _DataModelList.ElementAt(it).WChina;
+                    lRu.Content = "";
+                    lTr.Content = "";
+                    if (nPlay) soundService.PlaySound(_DataModelList.ElementAt(it).WChina, toRunFromBindedList.Title);
                 }
             }
 
@@ -180,6 +201,11 @@ namespace urlApp
 
         private void Window_Closed(object sender, EventArgs e)
         {
+            //var shuffleWoList = toRunFromBindedList.WordDataList.OrderBy(x => x.CreationDate).ToList();
+            //toRunFromBindedList.WordDataList.Clear();
+            //foreach (var word in shuffleWoList)
+            //    toRunFromBindedList.WordDataList.Add(word);
+            //shuffleWoList.Clear();
             try
             {
                 _fileIOService.SaveData(_dataList);
