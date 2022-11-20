@@ -51,6 +51,7 @@ namespace urlApp.Services
             st = st.Remove(f, st.Length - f);
             return st.Insert(st.Length, "\\music.mp3");
         }
+
         public string GetFolder()
         {
             string st = AppDomain.CurrentDomain.BaseDirectory;
@@ -62,6 +63,37 @@ namespace urlApp.Services
             st = st.Remove(f, st.Length-f);
             st += "\\mp3\\";
             return st;
+        }
+        public void PlayWav()
+        {
+            
+            ushort numchannels = 1;
+
+            uint samplerate = 16000;
+            uint numsamples = 16000*10;
+            FileStream f = new FileStream("a.wav", FileMode.Create);
+            BinaryWriter wr = new BinaryWriter(f);
+
+            wr.Write(Encoding.ASCII.GetBytes("RIFF"));
+            wr.Write(38 + numsamples * numchannels * 2);
+            wr.Write(Encoding.ASCII.GetBytes("WAVE"));
+            wr.Write(Encoding.ASCII.GetBytes("fmt "));
+            wr.Write(18);
+            wr.Write((short)1); // Encoding
+            wr.Write((short)numchannels); // Channels
+            wr.Write((int)(samplerate)); // Sample rate
+            wr.Write((int)(samplerate * 2)); // sampleRate * numChannels * bitsPerSample/8
+            wr.Write((short)(2)); // // Количество байт для одного сэмпла, включая все каналы.
+            wr.Write((int)(16)); // bits per sample //был short, но с интом заработало
+            wr.Write((Encoding.ASCII.GetBytes("data")));
+            wr.Write((int)(numsamples * 2)); // Extra size
+
+            for (int i = 0; i < numsamples; i++)
+            {
+                //wr.Write((byte)((a.sample(t) + (samplelength == 1 ? 128 : 0)) & 0xff));
+                wr.Write((short)(Math.Sin(2 * Math.PI * 4000 * i / samplerate)*5000));
+                //wr.Write((short)(134));
+            }
         }
         public void SaveSound(string word, string path)
         {

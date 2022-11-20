@@ -156,6 +156,11 @@ namespace urlApp
                     lTr.Content = "";
                     if (nPlay) soundService.PlaySound(_DataModelList.ElementAt(it).WChina, toRunFromBindedList.Title);
                 }
+                
+                if (e.Key == Key.F3)
+                {
+                    soundService.PlayWav();
+                }
             }
 
             
