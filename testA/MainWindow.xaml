@@ -14,7 +14,7 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <TextBox x:Name="tbIn" Margin="30"></TextBox>
-        <TextBox Grid.Row="1" x:Name="tbOut" Margin="30"></TextBox>
+        <TextBox Grid.Row="1" x:Name="tbOut" Margin="30" TextChanged="tbOut_TextChanged" Text="八八八八八八" xml:lang="zh-CN" FontSize="24"></TextBox>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -23,11 +23,7 @@
             <Button Grid.Column="0" Margin="30" Click="Button_Click" Content="Code"></Button>
             <Button Grid.Column="1" Margin="30" Click="Button_Click_1" Content="Encode"></Button>
         </Grid>
-        <Menu>
-            <ContextMenu Grid.Row="3">
-                <MenuItem Header="fff"></MenuItem>
-            </ContextMenu>
-        </Menu>
+
         
     </Grid>
 </Window>

@@ -41,7 +41,7 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <DataGrid x:Name="dgTranslater" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" KeyDown="DG_KeyDown" Visibility="Collapsed">
+        <DataGrid x:Name="dgTranslater" xml:lang="zh-CN" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" KeyDown="DG_KeyDown" Visibility="Collapsed">
             <!--<UIElement.CommandBindings>
                 <CommandBinding Command="{x:Static DataGrid.SelectAllCommand}"
                             Executed="OnSelectAllExecute"/>
@@ -81,7 +81,7 @@
 
 
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path = WChina}" Header="Chinese" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Path = WChina}" Header="Chinese" Width="*" xml:lang="zh-CN"/>
                 <DataGridTextColumn Binding="{Binding Path = WTranscription}" Header="Transcription" Width="*"/>
                 <DataGridTextColumn Binding="{Binding Path = WRussia}" Header="Russian" Width="*"/>
                 <DataGridTextColumn Binding="{Binding Path = Status}" Header="Status" Width="60"/>
@@ -98,7 +98,7 @@
             </Grid.RowDefinitions>
 
             <Viewbox Grid.Row="0">
-                <Label x:Name="lCh" Content="22"/>
+                <Label x:Name="lCh" Content="22" xml:lang="zh-CN"/>
             </Viewbox>
             <Viewbox Grid.Row="1">
                 <Label x:Name="lTr" Content="gggggggg"/>

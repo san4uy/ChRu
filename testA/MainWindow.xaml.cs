@@ -26,12 +26,13 @@ namespace testA
         private MediaPlayer player = new MediaPlayer();
         public MainWindow()
         {
+
             InitializeComponent();
         }
         
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Space)
+            if (e.Key == Key.Space)
             {
                 //es.Enco = tbIn.Text;
 
@@ -41,7 +42,11 @@ namespace testA
                 //{
                 //    writer.Write(System.Convert.FromBase64String(str));
                 //}
+                string myString;
+                myString = "八八八八八八八八八八八八八八八八八八 World";
+                tbOut.Text = myString;
             }
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -55,6 +60,11 @@ namespace testA
         {
             //es.Code = tbIn.Text;
             //tbOut.Text = es.Code;
+        }
+
+        private void tbOut_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

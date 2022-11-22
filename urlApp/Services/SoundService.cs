@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -72,8 +73,8 @@ namespace urlApp.Services
 
             uint samplerate = 16000;
             uint numsamples = 16000*10;
-            FileStream f = new FileStream("a.wav", FileMode.Create);
-            BinaryWriter wr = new BinaryWriter(f);
+            //FileStream f = new FileStream("a.wav", FileMode.Create);
+            //BinaryWriter wr = new BinaryWriter(f);
 
             //wr.Write(Encoding.ASCII.GetBytes("RIFF"));
             //wr.Write(38 + numsamples * numchannels * 2);
@@ -115,7 +116,14 @@ namespace urlApp.Services
                 buffer[headerSize + i*2] = (byte)(tmp & 0xFF);
                 buffer[headerSize + i*2 + 1] = (byte)((tmp >> 8) & 0xFF);
             }
-            wr.Write(buffer);
+
+            // Place the data into a stream
+            using (MemoryStream ms = new MemoryStream(buffer))
+            {
+                // Construct the sound player
+                SoundPlayer player = new SoundPlayer(ms);
+                player.PlayLooping();
+            }
         }
         public void SaveSound(string word, string path)
         {
