@@ -1,29 +1,27 @@
 ﻿<Window x:Class="testA.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:testA"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" KeyDown="Window_KeyDown">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <TextBox x:Name="tbIn" Margin="30"></TextBox>
-        <TextBox Grid.Row="1" x:Name="tbOut" Margin="30" TextChanged="tbOut_TextChanged" Text="八八八八八八" xml:lang="zh-CN" FontSize="24"></TextBox>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Margin="30" Click="Button_Click" Content="Code"></Button>
-            <Button Grid.Column="1" Margin="30" Click="Button_Click_1" Content="Encode"></Button>
-        </Grid>
 
-        
-    </Grid>
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+        SizeToContent="WidthAndHeight"
+        Title="Enum binding">
+    <Window.Resources>
+        <ObjectDataProvider x:Key="EnumDataSource"
+                            ObjectType="{x:Type sys:Enum}"
+                            MethodName="GetValues">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="HorizontalAlignment" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <StackPanel Width="300" Margin="10">
+        <TextBlock>Choose the HorizontalAlignment value of the Button:</TextBlock>
+
+        <ListBox Name="myComboBox" SelectedIndex="0"
+                 ItemsSource="{Binding Source={StaticResource EnumDataSource}}"/>
+
+        <Button Content="I'm a button"
+                HorizontalAlignment="{Binding ElementName=myComboBox, Path=SelectedItem}" />
+    </StackPanel>
 </Window>

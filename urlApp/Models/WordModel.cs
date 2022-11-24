@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 
 namespace urlApp.Models
 {
@@ -60,7 +61,9 @@ namespace urlApp.Models
     }
     internal class DataModel : WordModel
     {
+
         public string Title { get; set; } = "";
+        public string Language { get; set; }
         public BindingList<WordModel> WordDataList;
         //public BindingList<WordModel> WordDataList
         //{
@@ -82,5 +85,6 @@ namespace urlApp.Models
         {
             WordDataList = new BindingList<WordModel>();
         }
+        
     }
 }

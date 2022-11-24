@@ -4,8 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:urlApp"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        
         mc:Ignorable="d"
         Title="ChinApp" Height="450" Width="800" Loaded="Window_Loaded" Closed="Window_Closed" KeyDown="DG_KeyDown">
+    
+
+
 
     <Grid>
 
@@ -18,10 +23,23 @@
                 </ContextMenu>
             </MenuItem.ContextMenu>
         </MenuItem>-->
-        <DataGrid x:Name="dgTitle" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" CanUserDeleteRows="False">
+            
+            <DataGrid x:Name="dgTitle" LoadingRow="DataGrid_LoadingRow" FontSize="15" FontWeight="Bold" AutoGenerateColumns="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path = Title}" Header="Title" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Path = Title}" Header="Title" Width="2*"/>
+                <DataGridTemplateColumn Header="Формат" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox   DisplayMemberPath="DisplayName"
+                                        ItemsSource="{Binding Source={local:EnumBindingSource local:OrderLanguage}}"
+                                        SelectedValue="{Binding Path = Language}"
+                                        SelectedValuePath="Value" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
             </DataGrid.Columns>
+
             <DataGrid.ColumnHeaderStyle>
                 <!--Устанавливаем стиль заголовка таблицы-->
                 <Style TargetType="{x:Type DataGridColumnHeader}">
