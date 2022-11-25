@@ -125,20 +125,29 @@ namespace urlApp.Services
                 player.PlayLooping();
             }
         }
-        public void SaveSound(string word, string path)
+        public void SaveSound(string word, string path, string language)
         {
-            string UrlSound = GetUrlSound(word);
+            string UrlSound = GetUrlSound(word, language);
             using (BinaryWriter writer = new BinaryWriter(File.Open(path, FileMode.OpenOrCreate)))
             {
                 writer.Write(System.Convert.FromBase64String(UrlSound));
             }
         }
 
-        public string GetUrlSound(string str)
+        public string GetUrlSound(string str, string language)
         {
             var URL = "https://translate.google.com/_/TranslateWebserverUi/data/batchexecute?rpcids=jQ1olc&source-path=/&f.sid=6148368410739897732&bl=boq_translate-webserver_20221102.06_p0&hl=ru&soc-app=1&soc-platform=1&soc-device=1&_reqid=1869635&rt=c";
             var prefix = "[[[\"jQ1olc\",\"[\\\"";
-            var suffix = "\\\",\\\"zh-CN\\\",null,\\\"undefined\\\"]\",null,\"generic\"]]]";
+            string suffix = ""; 
+
+            if(language == OrderLanguage.Chinese.ToString())
+            {
+                suffix = "\\\",\\\"zh-CN\\\",null,\\\"undefined\\\"]\",null,\"generic\"]]]";
+            }
+            else if(language == OrderLanguage.English.ToString())
+            {
+                suffix = "\\\",\\\"en\\\",null,\\\"null\\\"]\",null,\"generic\"]]]";
+            }
             string responseInString;
             using (var wb = new WebClient())
             {
@@ -177,7 +186,7 @@ namespace urlApp.Services
                 }
                 if (!flg)
                 {
-                    SaveSound(worddata.WChina, PATH + "\\" + worddata.WChina + ".mp3");
+                    SaveSound(worddata.WChina, PATH + "\\" + worddata.WChina + ".mp3", dataModel.Language);
                 }
             }
 

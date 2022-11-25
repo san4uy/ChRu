@@ -30,9 +30,9 @@
                 <DataGridTemplateColumn Header="Формат" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox   DisplayMemberPath="DisplayName"
+                            <ComboBox   DisplayMemberPath="DisplayName" 
                                         ItemsSource="{Binding Source={local:EnumBindingSource local:OrderLanguage}}"
-                                        SelectedValue="{Binding Path = Language}"
+                                        SelectedValue="{Binding Path = Language, UpdateSourceTrigger=PropertyChanged}"
                                         SelectedValuePath="Value" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

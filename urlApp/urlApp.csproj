@@ -58,8 +58,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="EnumBindingSourceExtension.cs" />
-    <Compile Include="Language.cs" />
+    <Compile Include="Services\EnumBindingSourceExtension.cs" />
+    <Compile Include="Models\Language.cs" />
     <Compile Include="Services\SoundService.cs" />
     <Compile Include="Services\FileIOService.cs" />
     <Page Include="MainWindow.xaml">
