@@ -138,22 +138,24 @@ namespace urlApp.Services
         {
             var URL = "https://translate.google.com/_/TranslateWebserverUi/data/batchexecute?rpcids=jQ1olc&source-path=/&f.sid=6148368410739897732&bl=boq_translate-webserver_20221102.06_p0&hl=ru&soc-app=1&soc-platform=1&soc-device=1&_reqid=1869635&rt=c";
             var prefix = "[[[\"jQ1olc\",\"[\\\"";
-            string suffix = ""; 
+            string suffix = "";
+            string k = OrderLanguage.Chinese.ToString();
 
-            if(language == OrderLanguage.Chinese.ToString())
+            if (language == OrderLanguage.Chinese.ToString())
             {
                 suffix = "\\\",\\\"zh-CN\\\",null,\\\"undefined\\\"]\",null,\"generic\"]]]";
             }
-            else if(language == OrderLanguage.English.ToString())
+            else if (language == OrderLanguage.English.ToString())
             {
                 suffix = "\\\",\\\"en\\\",null,\\\"null\\\"]\",null,\"generic\"]]]";
             }
+            else throw new Exception("Erro Enum Langugae");
             string responseInString;
             using (var wb = new WebClient())
             {
                 var data = new NameValueCollection();
                 data["f.req"] = prefix + str + suffix;
-                data["at"] = "ADiessZ-V9qcF5UZLzb6X_0QfMn-%3A1667665235141";
+                //data["at"] = "ADiessZ-V9qcF5UZLzb6X_0QfMn-%3A1667665235141";
 
                 var response = wb.UploadValues(URL, "POST", data);
                 responseInString = Encoding.UTF8.GetString(response);

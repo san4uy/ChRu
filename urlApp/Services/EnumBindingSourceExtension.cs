@@ -22,7 +22,7 @@ namespace urlApp
         {
             return Enum.GetValues(_type)
                 .Cast<object>()
-                .Select(e => new { Value = (int)e, DisplayName = e.ToString() });
+                .Select(e => new { Value = e.ToString(), DisplayName = e.ToString() });
         }
 
     }
