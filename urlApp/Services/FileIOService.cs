@@ -43,23 +43,25 @@ namespace urlApp.Services
         public string GetPath()
         {
             string st = AppDomain.CurrentDomain.BaseDirectory;
-            /////del
+#if DEBUG
             int f = st.LastIndexOf('\\');
             f = st.Remove(f, 1).LastIndexOf('\\');
             f = st.Remove(f, st.Length-f).LastIndexOf('\\');
             f = st.Remove(f, st.Length-f).LastIndexOf('\\');
             st = st.Remove(f, st.Length-f);
+#endif
             return st.Insert(st.Length, "\\wordDataList.json");
         }
         public string GetFolder()
         {
             string st = AppDomain.CurrentDomain.BaseDirectory;
-            /////del
+#if DEBUG
             int f = st.LastIndexOf('\\');
             f = st.Remove(f, 1).LastIndexOf('\\');
             f = st.Remove(f, st.Length-f).LastIndexOf('\\');
             f = st.Remove(f, st.Length-f).LastIndexOf('\\');
             st = st.Remove(f, st.Length-f);
+#endif
             return st;
         }
     }

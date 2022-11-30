@@ -20,6 +20,8 @@ namespace urlApp.Services
         private string _enco;
         private string _code;
         private MediaPlayer player = new MediaPlayer();
+        public SoundPlayer wplayer = new SoundPlayer();
+        public bool wavFlg = false;
         public string Enco
         {
             get
@@ -45,24 +47,26 @@ namespace urlApp.Services
         public string GetPath ()
         {
             string st = AppDomain.CurrentDomain.BaseDirectory;
-            /////del
+#if DEBUG
             int f = st.LastIndexOf('\\');
             f = st.Remove(f, 1).LastIndexOf('\\');
             f = st.Remove(f, st.Length - f).LastIndexOf('\\');
             f = st.Remove(f, st.Length - f).LastIndexOf('\\');
             st = st.Remove(f, st.Length - f);
+#endif
             return st.Insert(st.Length, "\\music.mp3");
         }
 
         public string GetFolder()
         {
             string st = AppDomain.CurrentDomain.BaseDirectory;
-            /////del
+#if DEBUG
             int f = st.LastIndexOf('\\');
             f = st.Remove(f, 1).LastIndexOf('\\');
             f = st.Remove(f, st.Length-f).LastIndexOf('\\');
             f = st.Remove(f, st.Length-f).LastIndexOf('\\');
             st = st.Remove(f, st.Length-f);
+#endif
             st += "\\mp3\\";
             return st;
         }
@@ -121,8 +125,9 @@ namespace urlApp.Services
             using (MemoryStream ms = new MemoryStream(buffer))
             {
                 // Construct the sound player
-                SoundPlayer player = new SoundPlayer(ms);
-                player.PlayLooping();
+                wavFlg = true;
+                wplayer.Stream = ms;
+                wplayer.PlayLooping();
             }
         }
         public void SaveSound(string word, string path, string language)

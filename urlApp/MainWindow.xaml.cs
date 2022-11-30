@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using urlApp.Models;
 using urlApp.Services;
 
+
 namespace urlApp
 {
     /// <summary>
@@ -91,6 +92,7 @@ namespace urlApp
                 gWords.Visibility = Visibility.Visible;
                 try
                 {
+                    soundService.CheckMp3Folder(ref toRunFromBindedList);
                     _DataModelList = toRunFromBindedList.WordDataList.ToList();
                     lCh.Content = _DataModelList.ElementAt(0).WChina;
                     lRu.Content = "";
@@ -161,7 +163,13 @@ namespace urlApp
                 
                 if (e.Key == Key.F3)
                 {
-                    soundService.PlayWav();
+                    if (soundService.wavFlg)
+                    {
+                        soundService.wplayer.Stop();
+                        soundService.wavFlg = false;
+                    }
+                    else soundService.PlayWav();
+                    
                 }
             }
 
@@ -216,6 +224,11 @@ namespace urlApp
             try
             {
                 _fileIOService.SaveData(_dataList);
+#if !DEBUG
+                string folder = _fileIOService.GetFolder();
+                string strCmdText = folder.Insert(folder.Length, "\\git_push.bat");
+                System.Diagnostics.Process.Start("CMD.exe", strCmdText.Insert(0, "/C" ));
+#endif
             }
             catch (Exception ex)
             {
@@ -294,7 +307,7 @@ namespace urlApp
 
             
             dgTranslater.ItemsSource = toRunFromBindedList.WordDataList;
-            soundService.CheckMp3Folder(ref toRunFromBindedList);
+            
             toRunFromBindedList.WordDataList.ListChanged += _wordDataList_ListChanged;
             
         }
